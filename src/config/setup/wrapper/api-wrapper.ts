@@ -25,17 +25,16 @@ export async function handleApiRequest<T>(
   }
 }
 
-
 export const handleApiErrorMessage = (err: any) => {
   let errorMsg = "An unexpected error occurred";
   if (err?.validation && typeof err.validation === "object") {
     const messages = Object.values(err.validation).filter((msg) => typeof msg === "string");
     if (messages.length) {
-      errorMsg = messages.join(", ")
+      errorMsg = messages.join(", ");
       return { errorMsg };
-    };
+    }
   } else if (err?.validation && typeof err.validation === "string") {
-    errorMsg = err?.validation
+    errorMsg = err?.validation;
     return { errorMsg };
   }
 

@@ -1,13 +1,58 @@
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+
 export const apiEndpoints = {
   auth: {
-    login: "/admin/auth/login",
+    login: "/wp-json/jwt-auth/v1/token",
+    register: "/wp-json/wc/v3/customers",
+    forgotpassword: "/wp-json/custom/v1/forgot-password/",
+    resetpassword: "/wp-json/custom/v1/reset-password/",
+    changepassword: `/wp-json/wp/v2/users`,
+  },
+  menu: {
+    navbar: `${baseURL}/wp-json/menus/v1/menus/primary-menu`,
+    contactus: `${baseURL}/wp-json/wp/v2/pages/621`,
+    // footer: `${baseURL}/wp-json/menus/v1/menus/footer-menu`,
+    footerquicklinks: `${baseURL}/wp-json/menus/v1/menus/57`,
+    footercustomersupport: `${baseURL}/wp-json/menus/v1/menus/58`,
+    footercustomization: `${baseURL}/wp-json/menus/v1/menus/59`,
+    about: `${baseURL}/wp-json/acf/v3/pages/678`,
+  },
+  products: {
+    productLists: (per_page: number, page: number, category?: string) =>
+      `${baseURL}/wp-json/wc/v3/products?orderby=menu_order&order=asc&per_page=${per_page}&page=${page}${category && category !== undefined ? `&category=${category}` : ""}`,
+    productDetails: (slug: number, sku?: string) => `${baseURL}/wp-json/wc/v3/products/${slug}${sku ? `/${sku}` : ``}`,
+    search: (slug: number | string) => `${baseURL}/wp-json/custom-api/v1/products?slug=${slug}`,
+    productImage: (imageId: string | number) => `${baseURL}/wp-json/wp/v2/media/${imageId}`,
+    addImage: `${baseURL}/wp-json/wc/v2/media`,
+  },
+  order: {
+    orderdetails: (oid?: number | string) => `${baseURL}/wp-json/wc/v3/orders${oid ? `/${oid}` : ""}`,
+    orders: `${baseURL}/wp-json/my-api/v1/orders-by-customer/`,
+    placeorder: "/wp-json/telr-payment/v1/create-order",
+    updateorder: (oid?: number | string) => `/wp-json/wc/v3/orders/${oid}`,
+  },
+  user: {
+    updateprofile: `/wp-json/wc/v3/customers/`,
+  },
+  cart: {
+    getcart: `/wp-json/cocart/v2/cart`,
+    addtocart: "/wp-json/cocart/v2/cart/add-item",
+    updateCartItem: `/wp-json/cocart/v2/cart/item?cart_key=`,
+    updateCart: "/wp-json/cocart/v2/cart/update",
+    deleteCartItem: (item_key: string) => {
+      return `/wp-json/cocart/v2/cart/item/${item_key}`;
+    },
+    clearcart: `/wp-json/cocart/v2/cart/clear`,
   },
 
+  pages: {},
 
   //Yoast Metadata
   metadata: {
     metadata: "/wp-json/yoast/v1/get_head",
   },
+
+  seoUrls: {},
 
   status: {},
 };
