@@ -1,96 +1,106 @@
 import { ParamsProps } from "@/types/common";
-import { apiClient } from "../setup/api";
-import { apiEndpoints } from "../setup/api-endpoints";
+import { apiClient, apiServer } from "../setup/api-setup";
+import { apiEndpoints } from "../setup/api-setup/api-endpoints";
+import { SEOProps } from "@/types/seo-types";
 
 export const handleCommonApi = async <T>(
-    apiType: string,
-    method: "get" | "post" | "delete",
-    id?: string,
-    data?: any,
-    params?: ParamsProps,
-    isStatusChange?: boolean
+  apiType: string,
+  method: "get" | "post" | "delete",
+  id?: string,
+  data?: any,
+  params?: ParamsProps,
+  isStatusChange?: boolean,
+  authRequired?: boolean,
 ): Promise<T> => {
-    try {
-        const endpoint = isStatusChange
-            ? apiEndpoints.status[apiType](id!)
-            : apiType;
+  try {
+    const endpoint = isStatusChange ? apiEndpoints.status[apiType](id!) : apiType;
 
+    let payload: any = {};
+    let config: any = {};
 
-        let payload: any = {};
-        let config: any = {};
-
-        if (method === "get") {
-            payload = { params };
-        } else if (isStatusChange) {
-            payload = { status: data?.toString() };
-        } else if (data instanceof FormData) {
-            payload = data;
-            config.headers = { "Content-Type": "multipart/form-data" };
-        } else {
-            payload = data;
-        }
-
-        const response = await apiClient[method](endpoint, payload, config);
-
-        if (response?.data?.error) {
-            throw response.data;
-        }
-        return response.data;
-    } catch (error) {
-        throw error;
+    if (method === "get") {
+      payload = { params };
+    } else if (isStatusChange) {
+      payload = { status: data?.toString() };
+    } else if (data instanceof FormData) {
+      payload = data;
+      config.headers = { "Content-Type": "multipart/form-data" };
+    } else {
+      payload = data;
     }
+
+    const apiService = authRequired ? apiServer : apiClient;
+
+    const response = await apiService[method](endpoint, payload, config);
+
+    if (response?.data?.error) {
+      throw response.data;
+    }
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
+export const fetchMetaData = async (url: string) => {
+  const endpoint = apiEndpoints.metadata.metadata;
+  const params = {
+    url: process.env.NEXT_PUBLIC_BASE_URL + url,
+  };
+  try {
+    const response: SEOProps = await apiClient.get(endpoint, { params });
 
-
-
-//Change status common api
-// export const changeStatusApi = async (
-//     entityType: string,
-//     id: string,
-//     status: string
-// ): Promise<any> => {
-//     try {
-//         const endpoint = apiEndpoints.status[entityType](id);
-//         console.log("countrycountrycountrycountrycountrycountrycountrycountry", endpoint)
-
-//         const response = await apiClient.post(`${endpoint}`, { status: status.toString() })
-
-//         if (response?.data?.error) {
-//             throw response.data;
-//         }
-//         return response.data;
-//     } catch (error: any) {
-//         if (error && error.message) {
-//             throw error;
-//         } else {
-//             throw new Error("An unexpected error occurred. Please try again.");
-//         }
-//     }
-// };
-
-
-// //For most common Api's
-// export const handleCommonApi = async <T>(
-//     endpoint: string,
-//     method: "get" | "post" | "delete",
-//     id?: string,
-//     data?: any,
-//     params?: ParamsProps | undefined
-// ): Promise<T> => {
-//     try {
-//         const response = await apiClient[method](
-//             endpoint + (id ? `/${id}` : ""),
-//             method === "get" ? { params } : { data, params }
-//         );
-
-//         if (response?.data?.error) {
-//             throw new Error(response.data.error);
-//         }
-
-//         return response.data;
-//     } catch (error: any) {
-//         const errorMessage = error?.message || "An unexpected error occurred. Please try again.";
-//         throw new Error(errorMessage);
-//     }
-// };
+    if (response && response.data) {
+      return {
+        title: response.data?.json?.title,
+        description: response.data?.json?.description,
+        keywords: response.data?.json?.description,
+        icons: {
+          icon: "/favicon.png",
+        },
+        openGraph: {
+          // og:
+          title: response.data?.json?.og_title,
+          description: response.data?.json?.og_description,
+          url: `${process.env.NEXT_PUBLIC_APP_URL}`,
+          images: "/favicon.png",
+          // siteName: response.data?.json?.og_site_name,
+          // images: {
+          //   url: imgIs,
+          //   width: 800,
+          //   height: 600,
+          // },
+          locale: response.data?.json?.og_locale,
+          type: response.data?.json?.og_type,
+        },
+      };
+    } else {
+      return {
+        title: "Ecommerce Frontend",
+        description: "",
+        icons: {
+          icon: "/favicon.png",
+        },
+        openGraph: {
+          title: "Ecommerce Frontend",
+          description: "",
+          images: "/favicon.png",
+        },
+      };
+    }
+  } catch (error) {
+    console.log("error", error);
+    return {
+      title: "Ecommerce Frontend",
+      description: "",
+      icons: {
+        icon: "/favicon.png",
+      },
+      openGraph: {
+        title: "Ecommerce Frontend",
+        description: "",
+        images: "/favicon.png",
+      },
+    };
+  }
+};

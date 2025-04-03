@@ -1,5 +1,5 @@
 import { handleCommonApi } from "@/config/api/common-services";
-import { handleApiRequest } from "@/config/setup/api-wrapper";
+import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
 import { ParamsProps } from "@/types/common";
 import { debounce } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";

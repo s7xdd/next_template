@@ -1,5 +1,5 @@
 "use client";
-import { handleApiRequest } from "@/config/setup/api-wrapper";
+import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
 import { ParamsProps } from "@/types/common";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useCallback, useRef } from "react";

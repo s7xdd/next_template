@@ -2,5 +2,7 @@ import { createServerConnectAPI } from "./api-connect";
 
 const apiClient = createServerConnectAPI();
 
-export { apiClient };
+const apiServer = createServerConnectAPI(true);
 
+
+export { apiClient, apiServer };

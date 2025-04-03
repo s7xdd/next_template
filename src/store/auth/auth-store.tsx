@@ -1,7 +1,7 @@
 "use client";
 
 import { loginUserApi } from "@/config/api/auth";
-import { handleApiRequest } from "@/config/setup/api-wrapper";
+import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
 import { AuthState, LoginResponseProps } from "@/types/store/auth-types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";

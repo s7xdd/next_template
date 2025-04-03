@@ -1,6 +1,6 @@
 import { LoginFormProps } from "@/types/auth/auth";
-import { apiEndpoints } from "../setup/api-endpoints";
-import { apiClient } from "../setup/api";
+import { apiEndpoints } from "../setup/api-setup/api-endpoints";
+import { apiClient } from "../setup/api-setup";
 
 
 

@@ -1,4 +1,4 @@
-import { apiEndpoints } from "@/config/setup/api-endpoints";
+import { apiEndpoints } from "@/config/setup/api-setup/api-endpoints";
 import { ProductFormFieldProps, ProductProps } from "@/types/product/product-types";
 import { useGenericHook } from "../common/use-common";
 import { getImageOrVideoUrl } from "@/utils/helper/common";

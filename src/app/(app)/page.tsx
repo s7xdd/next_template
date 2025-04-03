@@ -1,7 +1,7 @@
 "use client";
 
 import { handleCommonApi } from "@/config/api/common-services";
-import { handleApiRequest } from "@/config/setup/api-wrapper";
+import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
 import useApi from "@/hooks/api/use-api";
 import { useState } from "react";
 

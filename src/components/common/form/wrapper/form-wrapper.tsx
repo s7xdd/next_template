@@ -4,7 +4,7 @@ import { useForm, FormProvider, DefaultValues } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
-import { handleApiErrorMessage } from "@/config/setup/api-wrapper";
+import { handleApiErrorMessage } from "@/config/setup/wrapper/api-wrapper";
 
 interface FormWrapperProps<T> {
   defaultValues: T;
