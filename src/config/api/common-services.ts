@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import { ParamsProps } from "@/types/common";
 import { apiClient } from "../setup/api";
 import { apiEndpoints } from "../setup/api-endpoints";
