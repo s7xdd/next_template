@@ -16,7 +16,7 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data } = handleApiRequest(() => handleCommonApi("/api/items", "post", "", form), true, true);
+    const { data } = await handleApiRequest(() => handleCommonApi("/api/items", "post", "", form), true, true);
     if (data) triggerRequest();
   };
 
