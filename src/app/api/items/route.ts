@@ -1,8 +1,14 @@
 import dbConnect from "@/config/database/mongodb";
 import item from "../../../../models/item";
+import { NextRequest } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   await dbConnect();
+
+  const searchParams = request.nextUrl.searchParams;
+  const query = searchParams.get("id");
+
+  console.log("searchParams", searchParams);
 
   const items = await item.find({});
 

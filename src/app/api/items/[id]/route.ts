@@ -1,44 +1,34 @@
 import dbConnect from "@/config/database/mongodb";
 import item from "../../../../../models/item";
+import { NextRequest } from "next/server";
 
-export default async function handler(req, res) {
-  const {
-    query: { id },
-    method,
-  } = req;
-
+export async function GET(request: NextRequest) {
   await dbConnect();
 
-  switch (method) {
-    case "PUT":
-      try {
-        const itemData = await item.findByIdAndUpdate(id, req.body, {
-          new: true,
-          runValidators: true,
-        });
-        if (!item) {
-          return res.status(400).json({ success: false });
-        }
-        res.status(200).json({ success: true, data: itemData });
-      } catch (error) {
-        res.status(400).json({ success: false });
-      }
-      break;
+  const searchParams = request.nextUrl.searchParams;
+  const query = searchParams.get("id");
 
-    case "DELETE":
-      try {
-        const deletedItem = await item.deleteOne({ _id: id });
-        if (!deletedItem) {
-          return res.status(400).json({ success: false });
-        }
-        res.status(200).json({ success: true, data: {} });
-      } catch (error) {
-        res.status(400).json({ success: false });
-      }
-      break;
+  console.log("searchParams",searchParams)
 
-    default:
-      res.status(400).json({ success: false });
-      break;
+  try {
+    const foundItem = await item.findById(query);
+
+    if (!foundItem) {
+      return new Response(JSON.stringify({ error: "Item not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    return new Response(JSON.stringify(foundItem), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error fetching item:", error);
+    return new Response(JSON.stringify({ error: "Failed to fetch item", details: error?.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

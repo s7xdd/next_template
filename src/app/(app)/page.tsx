@@ -8,7 +8,15 @@ import { useState } from "react";
 export default function Home() {
   const [form, setForm] = useState({ name: "", description: "" });
 
-  const { data, triggerRequest } = useApi(() => handleCommonApi("/api/items", "get"), {}, "", true);
+  const { data, triggerRequest } = useApi(
+    () =>
+      handleCommonApi("/api/items", "get", "", "", {
+        id: "67ee65c7b7f27d6d372f664b",
+      }),
+    {},
+    "",
+    true,
+  );
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
