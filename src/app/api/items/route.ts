@@ -17,12 +17,24 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   await dbConnect();
 
-  const itemData = await item.create(JSON.parse(request.body));
+  try {
+    const body = await request.json();
 
-  return new Response(JSON.stringify(itemData), {
-    status: 201,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+    const newItem = await item.create(body);
+
+    return new Response(JSON.stringify(newItem), {
+      status: 201,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error: any) {
+    console.error("Error creating item:", error);
+    return new Response(JSON.stringify({ error: "Failed to create item", details: error?.message }), {
+      status: 400,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { handleCommonApi } from "@/config/api/common-services";
+import { handleApiRequest } from "@/config/setup/api-wrapper";
 import useApi from "@/hooks/api/use-api";
 import { useState } from "react";
 
@@ -15,19 +16,8 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await fetch("/api/items", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-      triggerRequest();
-      setForm({ name: "", description: "" });
-    } catch (error) {
-      console.log(error);
-    }
+    const { data } = handleApiRequest(() => handleCommonApi("/api/items", "post", "", form), true, true);
+    if (data) triggerRequest();
   };
 
   return (
