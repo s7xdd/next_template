@@ -3,10 +3,11 @@
 import { create } from "zustand";
 import { initialState } from "./cart-initial";
 import { createFormData } from "./cart-functions";
-import { CartStateProps } from "@/src/types/store/cart-types";
-import { getCartKey, getToken } from "@/src/utils/storage";
-import { apiEndpoints } from "@/src/config/setup/api-setup/api-endpoints";
-import { handleApiRequest } from "@/src/config/setup/wrapper/api-wrapper";
+import { CartStateProps } from "@/types/store/cart-types";
+import { getCartKey, getToken } from "@/utils/storage";
+import { apiEndpoints } from "@/config/setup/api-setup/api-endpoints";
+import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
+
 
 export const useCartStore = create<CartStateProps>((set) => ({
   cart: initialState,

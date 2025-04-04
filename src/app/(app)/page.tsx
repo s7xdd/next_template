@@ -7,7 +7,9 @@ import { useState } from "react";
 export default function Home() {
   const [form, setForm] = useState({ name: "", description: "" });
 
-  const { data, triggerRequest } = useApi("", "get", { defaultParams: { page_size: 10 } });
+  const { data, triggerRequest } = useApi("/wp-json", "get", { defaultParams: { page_size: 10 }, autoFetch: true });
+
+  console.log("datadatadata",data)
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
