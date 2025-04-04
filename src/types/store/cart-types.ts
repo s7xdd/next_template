@@ -1,6 +1,6 @@
 export interface CartStateProps {
   cart: CartState | null;
-  addtocart: (cartData: any) => Promise<{ data: any; error: any }>;
+  addToCart: (cartData: any) => Promise<{ data: any; error: any }>;
 }
 
 export interface CurrencyProps {
