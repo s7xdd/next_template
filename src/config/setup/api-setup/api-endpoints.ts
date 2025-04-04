@@ -9,7 +9,7 @@ export const apiEndpoints = {
   },
   menu: {
     navbar: `/wp-json/menus/v1/menus/primary-menu`,
-    contactus: `/wp-json/wp/v2/pages/621`,
+    contactus: ``,
     // footer: `/wp-json/menus/v1/menus/footer-menu`,
     footerquicklinks: `/wp-json/menus/v1/menus/57`,
     footercustomersupport: `/wp-json/menus/v1/menus/58`,

@@ -27,12 +27,13 @@ export const handleApiRequest = async (
     if (response?.data?.error) {
       throw response.data;
     }
-
+    
     if (toastSuccess && response?.data?.message) {
       toast.success(response.data.message);
-    }
+    } 
 
     return { data: response.data, error: null };
+
   } catch (error: any) {
     console.error("API Error Object:", error);
 

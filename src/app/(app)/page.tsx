@@ -1,6 +1,5 @@
 "use client";
 
-import { handleCommonApi } from "@/config/api/common-services";
 import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
 import useApi from "@/hooks/api/use-api";
 import { useState } from "react";
@@ -8,15 +7,7 @@ import { useState } from "react";
 export default function Home() {
   const [form, setForm] = useState({ name: "", description: "" });
 
-  const { data, triggerRequest } = useApi(
-    () =>
-      handleCommonApi("/api/items", "get", "", "", {
-        id: "67ee65c7b7f27d6d372f664b",
-      }),
-    {},
-    "",
-    true,
-  );
+  const { data, triggerRequest } = useApi("", "get", { defaultParams: { page_size: 10 } });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -24,7 +15,7 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data } = await handleApiRequest(() => handleCommonApi("/api/items", "post", "", form), true, true);
+    const { data } = await handleApiRequest("", "get");
     if (data) triggerRequest();
   };
 
