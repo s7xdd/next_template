@@ -15,7 +15,7 @@ export const useAuthStore = create<AuthState>()(
       login: async (userData) => {
         const { data, error }: { data: LoginResponseProps; error: any } = await handleApiRequest(
           apiEndpoints.auth.login,
-          "get",
+          "post",
           {
             data: userData,
             toastError: true,
