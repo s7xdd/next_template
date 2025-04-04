@@ -1,30 +1,14 @@
 "use client";
 
-import { Box, Container, CssBaseline, Paper } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Image from "next/image";
 import { ReactNode } from "react";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2",
-    },
-    secondary: {
-      main: "#9c27b0",
-    },
-  },
-  typography: {
-    fontFamily: "Roboto, sans-serif",
-  },
-});
 
 interface AuthWrapperProps {
   children: ReactNode;
   title: string;
+  subTitle?: string;
 }
 
-export default function AuthWrapper({ children, title }: AuthWrapperProps) {
+export default function AuthWrapper({ children, title = "Sign In to your Account", subTitle }: AuthWrapperProps) {
   return (
     <>
       <section className="bg-white dark:bg-dark-2 flex flex-wrap min-h-[100vh]">
@@ -39,8 +23,8 @@ export default function AuthWrapper({ children, title }: AuthWrapperProps) {
               <a href="index.html" className="mb-2.5 max-w-[290px]">
                 <img src="assets/images/logo.png" alt="" />
               </a>
-              <h4 className="mb-3">Sign In to your Account</h4>
-              <p className="mb-8 text-secondary-light text-lg">Welcome back! please enter your detail</p>
+              <h4 className="mb-3">{title}</h4>
+              <p className="mb-8 text-secondary-light text-lg">{subTitle}</p>
             </div>
             {children}
           </div>

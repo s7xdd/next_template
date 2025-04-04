@@ -18,6 +18,8 @@ export const useAuthStore = create<AuthState>()(
           "get",
           {
             data: userData,
+            toastError: true,
+            toastSuccess: true,
           },
         );
 
