@@ -1,12 +1,12 @@
 "use client";
 
-import { apiEndpoints } from "@/config/setup/api-setup/api-endpoints";
-import { CartStateProps } from "@/types/store/cart-types";
-import { getCartKey, getToken } from "@/utils/storage";
 import { create } from "zustand";
 import { initialState } from "./cart-initial";
 import { createFormData } from "./cart-functions";
-import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
+import { CartStateProps } from "@/src/types/store/cart-types";
+import { getCartKey, getToken } from "@/src/utils/storage";
+import { apiEndpoints } from "@/src/config/setup/api-setup/api-endpoints";
+import { handleApiRequest } from "@/src/config/setup/wrapper/api-wrapper";
 
 export const useCartStore = create<CartStateProps>((set) => ({
   cart: initialState,
@@ -35,13 +35,8 @@ export const useCartStore = create<CartStateProps>((set) => ({
     const cartKey = getCartKey();
     const { formData, ...params } = cartData;
 
-    let url = `${apiEndpoints.cart.updateCartItem}${cartKey}`;
+    const url = `${apiEndpoints.cart.updateCartItem}${cartKey}`;
     const body = formData ? createFormData(formData) : null;
-
-    if (!formData) {
-      const queryParams = new URLSearchParams(params as any).toString();
-      url += `?${queryParams}`;
-    }
 
     const { data, error } = await handleApiRequest(url, "post", {
       data: body || "",
@@ -61,9 +56,18 @@ export const useCartStore = create<CartStateProps>((set) => ({
     const cartKey = getCartKey();
     const token = getToken();
 
-    const url = `${apiEndpoints.cart.deleteCartItem(itemKey)}${!token ? `?cart_key=${cartKey}` : ""}`;
+    const params = !token
+      ? {
+          cartKey: cartKey,
+        }
+      : {
+          undefined,
+        };
+
+    const url = `${apiEndpoints.cart.deleteCartItem(itemKey)}`;
 
     await handleApiRequest(url, "post", {
+      params: params,
       toastSuccess: true,
       toastError: true,
     });

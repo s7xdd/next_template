@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
 import Table from "rc-table";
-import cn from "@/utils/class-names";
-import { tableStyles } from "@/components/custom-styles/rc-table-styles";
 import Pagination from "../../pagination/pagination";
+import { tableStyles } from "@/src/components/custom-styles/rc-table-styles";
+import cn from "@/src/utils/class-names";
 
 export type ExtractProps<T> = T extends React.ComponentType<infer P> ? P : T;
 

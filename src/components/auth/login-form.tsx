@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import useLoginHandler from "@/hooks/auth/use-login-handler";
 import DynamicForm from "../common/form/form-render/dynamic-form";
-import { DynamicFormSectionProps } from "@/types/components/table-types";
+import { DynamicFormSectionProps } from "@/src/types/components/component-types";
+import useLoginHandler from "@/src/hooks/auth/use-login-handler";
 
 const LoginForm = () => {
   const { initialLoginValues, handleSubmit, loginData, loginFormSchema } = useLoginHandler();

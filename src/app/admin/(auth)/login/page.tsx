@@ -1,7 +1,8 @@
 "use client";
 
-import LoginForm from "@/components/auth/login-form";
-import AuthWrapper from "@/components/auth/wrapper/auth-wrapper";
+import LoginForm from "@/src/components/auth/login-form";
+import AuthWrapper from "@/src/components/auth/wrapper/auth-wrapper";
+
 
 export default function AdminLogin() {
   return (
