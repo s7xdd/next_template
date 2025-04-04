@@ -1,46 +1,6 @@
-import { ParamsProps } from "@/types/common";
-import { apiClient, apiServer } from "../setup/api-setup";
+import { apiClient } from "../setup/api-setup";
 import { apiEndpoints } from "../setup/api-setup/api-endpoints";
 import { SEOProps } from "@/types/seo-types";
-
-export const handleCommonApi = async <T>(
-  apiType: string,
-  method: "get" | "post" | "delete",
-  id?: string,
-  data?: any,
-  params?: ParamsProps,
-  isStatusChange?: boolean,
-  authRequired?: boolean,
-): Promise<T> => {
-  try {
-    const endpoint = isStatusChange ? apiEndpoints.status[apiType](id!) : apiType;
-
-    let payload: any = {};
-    let config: any = {};
-
-    if (method === "get") {
-      payload = { params };
-    } else if (isStatusChange) {
-      payload = { status: data?.toString() };
-    } else if (data instanceof FormData) {
-      payload = data;
-      config.headers = { "Content-Type": "multipart/form-data" };
-    } else {
-      payload = data;
-    }
-
-    const apiService = authRequired ? apiServer : apiClient;
-
-    const response = await apiService[method](endpoint, payload, config);
-
-    if (response?.data?.error) {
-      throw response.data;
-    }
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
 
 export const fetchMetaData = async (url: string) => {
   const endpoint = apiEndpoints.metadata.metadata;

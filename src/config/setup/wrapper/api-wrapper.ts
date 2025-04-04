@@ -1,48 +1,28 @@
 import { toast } from "react-toastify";
-import { apiEndpoints } from "@/config/setup/api-setup/api-endpoints";
 import { apiClient } from "../api-setup";
 
 export const handleApiRequest = async (
-  apiType: string,
+  endpoint: string,
   method: "get" | "post" | "delete",
   options: {
-    id?: string;
     data?: any;
     params?: Record<string, any>;
     toastSuccess?: boolean;
     toastError?: boolean;
-    isStatusChange?: boolean;
   } = {},
 ): Promise<{ data: any | null; error: Error | null }> => {
-  const {
-    id,
-    data,
-    params,
-    toastSuccess = false,
-    toastError = false,
-    isStatusChange = false,
-  } = options;
+  const { data, params, toastSuccess = false, toastError = false } = options;
 
   try {
-    const endpoint = isStatusChange ? apiEndpoints.status[apiType](id!) : apiType;
+    const config: any = {
+      params,
+    };
 
-    let payload: any = {};
-    let config: any = {};
-
-    if (method === "get") {
-      payload = { params };
-    } else if (isStatusChange) {
-      payload = { status: data?.toString() };
-    } else if (data instanceof FormData) {
-      payload = data;
-      config.headers = { "Content-Type": "multipart/form-data" };
-    } else {
-      payload = data;
+    if (data instanceof FormData) {
+      config.headers["Content-Type"] = "multipart/form-data";
     }
 
-    const apiService = apiClient;
-
-    const response = await apiService[method](endpoint, payload, config);
+    const response = await apiClient[method](endpoint, data || {}, config);
 
     if (response?.data?.error) {
       throw response.data;
@@ -56,7 +36,7 @@ export const handleApiRequest = async (
   } catch (error: any) {
     console.error("API Error Object:", error);
 
-    const errorMsg = handleApiErrorMessage(error);
+    const errorMsg: any = handleApiErrorMessage(error);
 
     if (toastError) {
       toast.error(errorMsg);

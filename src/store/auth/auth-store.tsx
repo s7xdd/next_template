@@ -1,6 +1,6 @@
 "use client";
 
-import { loginUserApi } from "@/config/api/auth";
+import { apiEndpoints } from "@/config/setup/api-setup/api-endpoints";
 import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
 import { AuthState, LoginResponseProps } from "@/types/store/auth-types";
 import { create } from "zustand";
@@ -13,8 +13,13 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       userRole: null,
       login: async (userData) => {
-        const { data, error }: { data: LoginResponseProps; error: any } =
-          await handleApiRequest(() => loginUserApi(userData), true, true);
+        const { data, error }: { data: LoginResponseProps; error: any } = await handleApiRequest(
+          apiEndpoints.auth.login,
+          "get",
+          {
+            data: userData,
+          },
+        );
 
         //REAL LOGIN
         if (data && data?.requestedData) {
@@ -23,7 +28,7 @@ export const useAuthStore = create<AuthState>()(
             user: data?.requestedData?.userData,
             token,
           });
-        } 
+        }
 
         return { data, error };
       },
@@ -37,6 +42,6 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: "auth-storage",
-    }
-  )
+    },
+  ),
 );

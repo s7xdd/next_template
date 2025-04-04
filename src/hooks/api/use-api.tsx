@@ -13,17 +13,9 @@ const useApi = (
     isStatusChange?: boolean;
     toastSuccess?: boolean;
     toastError?: boolean;
-    id?: string;
   } = {},
 ) => {
-  const {
-    defaultParams = {},
-    autoFetch = false,
-    isStatusChange = false,
-    toastSuccess = false,
-    toastError = true,
-    id,
-  } = options;
+  const { defaultParams = {}, autoFetch = false, toastSuccess = false, toastError = true } = options;
 
   const searchParams = useSearchParams();
   const searchParamsString = searchParams.toString();
@@ -50,10 +42,8 @@ const useApi = (
         const finalParams = overrideParams ?? params;
 
         const { data: responseData, error: responseError } = await handleApiRequest(endpoint, method, {
-          id,
           data: finalParams,
           params: finalParams,
-          isStatusChange,
           toastSuccess,
           toastError,
         });
@@ -71,7 +61,7 @@ const useApi = (
         return null;
       }
     },
-    [endpoint, method, id, params, isStatusChange, toastSuccess, toastError],
+    [endpoint, method, params, toastSuccess, toastError],
   );
 
   useEffect(() => {
