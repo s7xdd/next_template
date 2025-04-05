@@ -8,26 +8,20 @@ export interface AuthState {
   logout: () => void;
 }
 
-
 export interface LoginResponseProps {
-  requestedData: {
-    userData: UserProps;
-    languages: any[];
-  };
+  success: boolean;
+  statusCode: number;
+  code: string;
   message: string;
-  status: boolean;
+  data: UserProps;
 }
 
 export interface UserProps {
-  userTypeId: {
-    _id: string;
-    userTypeName: string;
-    slug: string;
-  };
-  firstName: string;
+  token: any;
+  id: number;
   email: string;
-  phone: string;
-  token: string;
-  privilages: any;
-  websiteLogoUrl: string;
-} 
+  nicename: string;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+}

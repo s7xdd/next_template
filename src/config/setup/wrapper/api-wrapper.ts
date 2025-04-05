@@ -18,11 +18,13 @@ export const handleApiRequest = async (
       params,
     };
 
-    if (data instanceof FormData) {
-      config.headers["Content-Type"] = "multipart/form-data";
-    }
+    // if (data instanceof FormData) {
+    //   config.headers["Content-Type"] = "multipart/form-data";
+    // }
 
     const response = await apiClient[method](endpoint, data || {}, config);
+
+    console.log("responseresponse",response)
 
     if (response?.data?.error) {
       throw response.data;

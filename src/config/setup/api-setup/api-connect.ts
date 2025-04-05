@@ -15,6 +15,7 @@ export const createServerConnectAPI = (authRequired = false) => {
   const requestOptions: any = {
     baseURL: baseUrl,
     headers: headers,
+    withCredentials: true
   };
   if (authRequired) {
     requestOptions.auth = {

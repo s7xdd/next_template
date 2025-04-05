@@ -24,10 +24,10 @@ export const useAuthStore = create<AuthState>()(
         );
 
         //REAL LOGIN
-        if (data && data?.requestedData) {
-          const { token } = data.requestedData?.userData;
+        if (data && data?.data?.token) {
+          const { token } = data?.data?.token;
           set({
-            user: data?.requestedData?.userData,
+            user: data?.data,
             token,
           });
         }

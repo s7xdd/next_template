@@ -8,16 +8,18 @@ import { getCartKey, getToken } from "@/utils/storage";
 import { apiEndpoints } from "@/config/setup/api-setup/api-endpoints";
 import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
 
-
 export const useCartStore = create<CartStateProps>((set) => ({
   cart: initialState,
 
+  getCart: async () => {
+    const { data, errror } = await handleApiRequest(apiEndpoints.cart.getcart, "get");
+    set({ cart: data?.requestedData });
+  },
   addToCart: async (cartData: Record<string, any>) => {
-    const cartKey = getCartKey();
-    const token = getToken();
     const formDataObject = createFormData(cartData);
+    console.log("cartData", formDataObject);
 
-    const url = `${apiEndpoints.cart.addtocart}${!token && cartKey ? `?cart_key=${cartKey}` : ""}`;
+    const url = `${apiEndpoints.cart.addtocart}`;
 
     const { data, error } = await handleApiRequest(url, "post", {
       data: formDataObject,

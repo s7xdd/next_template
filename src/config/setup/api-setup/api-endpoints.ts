@@ -34,8 +34,8 @@ export const apiEndpoints = {
     updateprofile: `/wp-json/wc/v3/customers/`,
   },
   cart: {
-    getcart: `/wp-json/cocart/v2/cart`,
-    addtocart: "/wp-json/cocart/v2/cart/add-item",
+    getcart: `/wp-json/wc/store/v1/cart`,
+    addtocart: "/wp-json/wc/store/v1/cart/add-item",
     updateCartItem: `/wp-json/cocart/v2/cart/item?cart_key=`,
     updateCart: "/wp-json/cocart/v2/cart/update",
     deleteCartItem: (item_key: string) => {
