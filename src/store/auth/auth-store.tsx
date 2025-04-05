@@ -25,7 +25,7 @@ export const useAuthStore = create<AuthState>()(
 
         //REAL LOGIN
         if (data && data?.data?.token) {
-          const { token } = data?.data?.token;
+          const { token } = data?.data;
           set({
             user: data?.data,
             token,

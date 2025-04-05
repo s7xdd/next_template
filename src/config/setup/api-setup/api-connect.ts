@@ -33,6 +33,7 @@ export const createServerConnectAPI = (authRequired = false) => {
 
 const requestInterceptor = (config: any) => {
   const token = getToken();
+  console.log("tokentoken",token)
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
   } else {

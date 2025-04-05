@@ -1,6 +1,20 @@
 import { LOCAL_STORAGE_VALUE_TYPES } from "@/constants/common/common-constants";
 
-const key = "userDetails";
+const key = "auth-storage";
+
+export const getToken = () => {
+  if (typeof window === 'undefined') {
+    console.log('localStorage is not available on the server-side');
+    return null;
+  }
+  try {
+    const storedUser = localStorage.getItem(key);
+    return storedUser ? JSON.parse(storedUser)?.state?.token : null;
+  } catch (error) {
+    console.log("Error getting the auth token", error);
+    return null;
+  }
+};
 
 export const storeUser = (userData) => {
   if (typeof window !== 'undefined') {
@@ -84,20 +98,7 @@ export const getNonce = () => {
   return nonce ?? null;
 };
 
-export const getToken = () => {
-  if (typeof window === 'undefined') {
-    console.log('localStorage is not available on the server-side');
-    return null;
-  }
-  try {
-    const storedUser = localStorage.getItem(key);
-    // console.log("JSON.parse(storedUser)?.token",JSON.parse(storedUser)?.token)
-    return storedUser ? JSON.parse(storedUser)?.token : null;
-  } catch (error) {
-    console.log("Error getting the auth token", error);
-    return null;
-  }
-};
+
 
 export const deleteUser = () => {
   try {
