@@ -3,9 +3,9 @@
 import LoginForm from "@/components/auth/login-form";
 import AuthWrapper from "@/components/auth/wrapper/auth-wrapper";
 
-export default function AdminLogin() {
+export default function LoginPage() {
   return (
-    <AuthWrapper title="Admin Login">
+    <AuthWrapper title="Login">
       <LoginForm />
     </AuthWrapper>
   );

@@ -5,7 +5,7 @@ import { useFormContext, useFieldArray } from "react-hook-form";
 import { FormWrapper } from "../wrapper/form-wrapper";
 import { FormInput } from "../components/form-input";
 import Button from "../../button/button";
-import { DynamicFormSectionProps } from "@/src/types/components/component-types";
+import { DynamicFormProps, DynamicFormSectionProps } from "@/types/components/component-types";
 
 const GroupField = ({
   field,
