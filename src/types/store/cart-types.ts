@@ -1,6 +1,7 @@
 export interface CartStateProps {
-  cart: CartState | null;
+  cart: CartProps | null;
   addToCart: (cartData: any) => Promise<{ data: any; error: any }>;
+  getCart: () => Promise<{ data: any; error: any }>;
 }
 
 export interface CurrencyProps {
@@ -14,231 +15,131 @@ export interface CurrencyProps {
   currency_suffix: string;
 }
 
-export interface Address {
-  billing_first_name: string;
-  billing_last_name: string;
-  billing_company: string;
-  billing_country: string;
-  billing_address_1: string;
-  billing_address_2: string;
-  billing_city: string;
-  billing_state: string;
-  billing_postcode: string;
-  billing_phone: string;
-  billing_email: string;
-}
-
-export interface ShippingAddress {
-  shipping_first_name: string;
-  shipping_last_name: string;
-  shipping_company: string;
-  shipping_country: string;
-  shipping_address_1: string;
-  shipping_address_2: string;
-  shipping_city: string;
-  shipping_state: string;
-  shipping_postcode: string;
-  shipping_phone: string;
-}
-
-export interface Customer {
-  billing_address: Address;
-  shipping_address: ShippingAddress;
-}
-
-export interface Quantity {
-  value: number;
-  min_purchase: number;
-  max_purchase: number;
-}
-
-export interface TotalsProps {
-  subtotal: string;
-  subtotal_tax: string;
-  fee_total: string;
-  fee_tax: string;
-  discount_total: string;
-  discount_tax: string;
-  shipping_total: string;
-  shipping_tax: string;
-  total: string;
-  total_tax: string;
-}
-
-export interface StockStatus {
-  status: string;
-  stock_quantity: number | null;
-  hex_color: string;
-}
-export interface ItemProps {
-  item_key: string;
-  id: number;
-  name: string;
-  title: string;
-  price: string;
-  quantity: {
-    value: number;
-    min_purchase: number;
-    max_purchase: number;
-  };
+export interface CartProps {
+  items: CartItemProps[];
+  coupons: [];
+  fees: [];
   totals: {
-    subtotal: string;
-    subtotal_tax: number;
-    total: number;
-    tax: number;
+    total_items: string;
+    total_items_tax: string;
+    total_fees: string;
+    total_fees_tax: string;
+    total_discount: string;
+    total_discount_tax: string;
+    total_shipping: string;
+    total_shipping_tax: string;
+    total_price: string;
+    total_tax: string;
+    tax_lines: [];
+    currency_code: string;
+    currency_symbol: string;
+    currency_minor_unit: number;
+    currency_decimal_separator: string;
+    currency_thousand_separator: string;
+    currency_prefix: string;
+    currency_suffix: string;
   };
-  slug: string;
-  meta: {
-    product_type: string;
-    sku: string;
-    dimensions: {
-      length: string;
-      width: string;
-      height: string;
-      unit: string;
-    };
-    weight: string;
-    variation: {
-      [key: string]: string | number;
-    };
-    attributes: unknown[];
-    virtual: boolean;
-    downloadable: boolean;
+  shipping_address: {
+    first_name: string;
+    last_name: string;
+    company: string;
+    address_1: string;
+    address_2: string;
+    city: string;
+    state: string;
+    postcode: string;
+    country: string;
+    phone: string;
   };
-  backorders: string;
-  cart_item_data: {
-    wcpa_data: {
-      [sectionKey: string]: {
-        extra: {
-          section_id: string;
-          clStatus: string;
-          key: string;
-          name: string;
-          price: number;
-          weight: number;
-          form_id: number;
-          isClone: boolean;
-          parentKey: boolean | null;
-          form_rules: {
-            exclude_from_discount: boolean;
-            fee_label: string;
-            disp_hide_options_price: boolean;
-            disp_show_section_price: boolean;
-            disp_show_field_price: boolean;
-            layout_option: string;
-            pric_use_as_fee: boolean;
-            process_fee_as: string;
-          };
-        };
-        fields: {
-          [fieldIndex: string]: Array<{
-            type: string;
-            name: string;
-            label: string;
-            elementId: string;
-            value: string;
-            quantity: boolean;
-            clStatus: string;
-            price: boolean | Record<string, number>;
-            weight: boolean | number;
-            form_data: {
-              name: string;
-              label: string;
-              value: string;
-              enablePrice?: boolean;
-              price?: string;
-              active: boolean;
-              required: boolean;
-              elementId: string;
-              subtype?: string;
-              pricingType?: string;
-              priceOptions?: string;
-              multiple?: boolean;
-              disp_size_img?: {
-                width?: string;
-                height?: string;
-              };
-              disp_type?: string;
-            };
-            map_to_checkout: boolean;
-            is_fee?: boolean;
-            is_show_price?: boolean;
-            priceFormula?: unknown[];
-            rawPrice?: Record<string, number> | number[];
-          }>;
-        };
-      };
-    };
-    wcpa_cart_rules: {
-      price_override: string;
-      bind_quantity: boolean;
-      thumb_image: number;
-      combined_products: unknown[];
-      checkout_fields: unknown[];
-      currency: string;
-      quantity: boolean;
-      timestamp: boolean;
-    };
-    wcpa_price: {
-      total: number;
-      addon: number;
-      product: number;
-      excludeDiscount: number;
-    };
-    wcpa_weight: {
-      total: number;
-      addon: number;
-      product: number;
-    };
+  billing_address: {
+    first_name: string;
+    last_name: string;
+    company: string;
+    address_1: string;
+    address_2: string;
+    city: string;
+    state: string;
+    postcode: string;
+    country: string;
+    email: string;
+    phone: string;
   };
-  featured_image: string;
-  categories: boolean;
-  tags: boolean;
-  stock_status: {
-    status: string;
-    stock_quantity: number | null;
-    hex_color: string;
-  };
-  gallery: unknown[];
-  permalink: string;
-  is_discounted: boolean;
-  price_regular: string;
-  price_sale: string;
-  price_discounted: string;
-}
-
-export interface CartTotals {
-  subtotal: string;
-  subtotal_tax: string;
-  fee_total: string;
-  fee_tax: string;
-  discount_total: string;
-  discount_tax: string;
-  shipping_total: string;
-  shipping_tax: string;
-  total: string;
-  total_tax: string;
-}
-
-export interface CartState {
-  cart_hash: string;
-  cart_key: string;
-  currency: CurrencyProps;
-  customer: Customer;
-  items: ItemProps[];
-  item_count: number;
-  items_weight: string;
-  coupons: unknown[];
   needs_payment: boolean;
   needs_shipping: boolean;
-  shipping: any;
-  fees: unknown[];
-  taxes: unknown[];
-  totals: CartTotals;
-  removed_items: unknown[];
-  cross_sells: unknown[];
-  notices: unknown[];
-  // images: any;
-  selected_country: string;
-  int_shipping_charge: number;
+  payment_requirements: string[];
+  has_calculated_shipping: boolean;
+  shipping_rates: [];
+  items_count: number;
+  items_weight: number;
+  cross_sells: [];
+  errors: [];
+  payment_methods: [];
+  extensions: {};
+}
+
+export interface CartItemProps {
+  key: string;
+  id: number;
+  type: "variation";
+  quantity: number;
+  quantity_limits: {
+    minimum: number;
+    maximum: number;
+    multiple_of: number;
+    editable: boolean;
+  };
+  name: string;
+  short_description: string;
+  description: string;
+  sku: string;
+  low_stock_remaining: number | null;
+  backorders_allowed: boolean;
+  show_backorder_badge: boolean;
+  sold_individually: boolean;
+  permalink: string;
+  images: {
+    id: number;
+    src: string;
+    thumbnail: string;
+    srcset: string;
+    sizes: string;
+    name: string;
+    alt: string;
+  }[];
+  variation: { attribute: string; value: string }[];
+  item_data: any[];
+  prices: {
+    price: string;
+    regular_price: string;
+    sale_price: string;
+    price_range: string | null;
+    currency_code: string;
+    currency_symbol: string;
+    currency_minor_unit: number;
+    currency_decimal_separator: string;
+    currency_thousand_separator: string;
+    currency_prefix: string;
+    currency_suffix: string;
+    raw_prices: {
+      precision: number;
+      price: string;
+      regular_price: string;
+      sale_price: string;
+    };
+  };
+  totals: {
+    line_subtotal: string;
+    line_subtotal_tax: string;
+    line_total: string;
+    line_total_tax: string;
+    currency_code: string;
+    currency_symbol: string;
+    currency_minor_unit: number;
+    currency_decimal_separator: string;
+    currency_thousand_separator: string;
+    currency_prefix: string;
+    currency_suffix: string;
+  };
+  catalog_visibility: string;
+  extensions: { [key: string]: any };
 }

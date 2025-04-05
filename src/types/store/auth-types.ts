@@ -3,7 +3,6 @@ import { LoginFormProps } from "../auth/auth";
 export interface AuthState {
   user: UserProps | null;
   token: string | null;
-  userRole: string | null;
   login: (userData: LoginFormProps) => Promise<{ data: LoginResponseProps; error: any }>;
   logout: () => void;
 }
