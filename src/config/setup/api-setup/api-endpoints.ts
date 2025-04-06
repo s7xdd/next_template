@@ -7,12 +7,11 @@ export const apiEndpoints = {
     verifyotp: "/wp-json/auth/v1/verify",
     forgotpassword: "/wp-json/custom/v1/reset-password",
     setpassword: "/wp-json/custom/v1/reset-password/",
-
-
-
-
-    changepassword: `/wp-json/wp/v2/users`,
+    resendotp: "/wp-json/auth/v1/resend-otp",
+    changepassword: "/wp-json/custom/v1/change-password",
   },
+
+  
   menu: {
     navbar: `/wp-json/menus/v1/menus/primary-menu`,
     contactus: ``,

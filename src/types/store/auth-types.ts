@@ -8,6 +8,10 @@ export interface AuthState {
   isGuestAuthenticated: boolean,
   isAuthenticated: boolean,
   login: (userData: LoginFormProps) => Promise<{ data: LoginResponseProps; isVerified: boolean; error: any }>;
+  verifyOTP: (OTPData: OTPFormProps) => Promise<{ data: OTPResponseProps; isVerified: boolean; error: any }>;
+  forgotPassword: (forgotPasswordFormData: ResetPasswordFormProps) => Promise<{ data: ResetPasswordResponseProps; error: any }>;
+  setPassword: (setPasswordFormData: SetPasswordFormProps) => Promise<{ data: SetPasswordResponseProps; error: any }>;
+  changePassword: (changePasswordFormData: ChangePasswordFormProps) => Promise<{ data: ChangePasswordResponseProps; error: any }>;
   logout: () => void;
 }
 
@@ -74,6 +78,7 @@ export interface GuestRegisterResponseProps {
 }
 
 export interface OTPFormProps {
+  email: string;
   username: string;
   otp: string;
 }
@@ -106,6 +111,8 @@ export interface ResetPasswordResponseProps {
 export interface SetPasswordFormProps {
   email: string;
   password: string;
+  confirmpassword: string;
+  code: string;
 }
 
 export interface SetPasswordResponseProps {
@@ -127,3 +134,7 @@ export interface ChangePasswordResponseProps {
   require_logout: boolean;
 }
 
+export interface ResendOTPFormProps {
+  username: string;
+  email: string;
+}

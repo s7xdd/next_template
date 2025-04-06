@@ -78,7 +78,7 @@ export const useAuthStore = create<AuthState>()(
         return { data, error };
       },
 
-      verifyOTP: async (OTPData: OTPFormProps, isGuest: boolean) => {
+      verifyOTP: async (OTPData: OTPFormProps) => {
         const { data, error }: { data: OTPResponseProps; error: any } = await handleApiRequest(
           apiEndpoints.auth.verifyotp,
           "post",

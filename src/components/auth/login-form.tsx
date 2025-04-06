@@ -3,11 +3,11 @@
 import React from "react";
 import DynamicForm from "../common/form/form-render/dynamic-form";
 import { DynamicFormSectionProps } from "@/types/components/component-types";
-import useLoginHandler from "@/hooks/auth/use-login-handler";
+import { useLogin } from "@/hooks/auth/use-login-handler";
 
 
 const LoginForm = () => {
-  const { initialLoginValues, handleSubmit, loginData, loginFormSchema } = useLoginHandler();
+  const { initialValues, handleLoginFormSubmit, isSubmitting, showOtpField, otpProps, isLoggedIn  } = useLogin();
 
   const LoginFormFields: DynamicFormSectionProps[] = [
     {
