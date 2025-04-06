@@ -1,6 +1,6 @@
 "use client";
 
-import "react-quill/dist/quill.snow.css";
+// import "react-quill/dist/quill.snow.css";
 
 import React, { useCallback, useRef } from "react";
 import ReactQuill from "react-quill";

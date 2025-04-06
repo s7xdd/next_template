@@ -1,65 +1,52 @@
-import { WEBSITE_ROUTES } from "@/config/website/routes";
-import { useAuthStore } from "@/store/auth/auth-store";
-import { LoginFormProps } from "@/types/auth/auth";
-import { loginFormSchema } from "@/utils/validators/auth/auth-schema";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCart } from "../cart/use-cart";
+import { useAuthStore } from "@/store/auth/auth-store";
+import { LoginFormProps } from "@/types/store/auth-types";
+import { WEBSITE_ROUTES } from "@/config/website/routes";
 
-function useLoginHandler() {
+export const useLogin = (isCheckout?: boolean) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showOtpField, setShowOtpField] = useState(false);
+  const [otpProps, setOtpProps] = useState<any>({});
   const router = useRouter();
-
-  const { login } = useAuthStore();
 
   const { getCart } = useCart();
 
-  const [loginData, setLoginData] = useState({
-    data: {},
-    isSubmitting: false,
-  });
-
-  const initialLoginValues: LoginFormProps = {
-    username: "",
+  const initialValues = {
+    email: "",
     password: "",
+    remember: false,
+    deviceType: "",
   };
 
-  const handleSubmit = async (values: any) => {
-    setLoginData({
-      ...loginData,
-      isSubmitting: true,
-    });
+  const handleLoginFormSubmit = async (LoginData: LoginFormProps) => {
+    console.log("LoginDataLoginData", LoginData);
+    setIsSubmitting(true);
+    const { data, error, isVerified } = await useAuthStore.getState().login(LoginData);
 
-    const { data, error } = await login(values);
+    console.log("data", data);
 
-    if (data) {
-      getCart();
-      router.push(WEBSITE_ROUTES.pages.home);
-      setLoginData({
-        ...loginData,
-        data: data,
-        isSubmitting: false,
-      });
-    } else {
-      setLoginData({
-        ...loginData,
-        isSubmitting: false,
-      });
+    if (error) {
+      setIsSubmitting(false);
       throw error;
     }
 
-    setLoginData({
-      ...loginData,
-      isSubmitting: false,
-      data: data,
-    });
+    if (data && data.user) {
+      if (isVerified) {
+        setIsLoggedIn(true);
+        getCart();
+        if (!isCheckout) {
+          router.push(WEBSITE_ROUTES.pages.home);
+        }
+      } else {
+        setOtpProps(data?.user);
+        setShowOtpField(true);
+      }
+    }
+    setIsSubmitting(false);
   };
 
-  return {
-    initialLoginValues,
-    handleSubmit,
-    loginData,
-    loginFormSchema,
-  };
-}
-
-export default useLoginHandler;
+  return { initialValues, handleLoginFormSubmit, isSubmitting, showOtpField, otpProps, isLoggedIn };
+};

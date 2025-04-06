@@ -2,9 +2,15 @@
 export const apiEndpoints = {
   auth: {
     login: "/wp-json/jwt-auth/v1/token",
-    register: "/wp-json/wc/v3/customers",
-    forgotpassword: "/wp-json/custom/v1/forgot-password/",
-    resetpassword: "/wp-json/custom/v1/reset-password/",
+    register: "/wp-json/auth/v1/register",
+    guestregister: "/wp-json/auth/v1/guest",
+    verifyotp: "/wp-json/auth/v1/verify",
+    forgotpassword: "/wp-json/custom/v1/reset-password",
+    setpassword: "/wp-json/custom/v1/reset-password/",
+
+
+
+
     changepassword: `/wp-json/wp/v2/users`,
   },
   menu: {
