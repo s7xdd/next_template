@@ -4,12 +4,13 @@ import Button from "@/components/common/button/button";
 import useApi from "@/hooks/api/use-api";
 import { useAuthHandler } from "@/hooks/auth/use-auth-handler";
 import { useCart } from "@/hooks/cart/use-cart";
+import { useAuthStore } from "@/store/auth/auth-store";
 import { useState } from "react";
 
 export default function Home() {
   const [form, setForm] = useState({ name: "", description: "" });
 
-  const { handleLogout, user } = useAuthHandler();
+  const { logout, user } = useAuthStore();
 
   const { addToCartHandler, deleteCartItem } = useCart();
 
@@ -25,7 +26,7 @@ export default function Home() {
     >
       <Button onClick={addToCartHandler}>Add to cart</Button>
       <Button onClick={deleteCartItem}>Delete cart item</Button>
-      <Button onClick={handleLogout}>{user ? 'Logout' : 'Login'}</Button>
+      <Button onClick={logout}>{user ? "Logout" : "Login"}</Button>
     </div>
   );
 }

@@ -8,9 +8,9 @@ export const useAuthHandler = () => {
   const router = useRouter();
   const { logout, user } = useAuthStore();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (user) {
-      logout();
+      await logout();
       router.push(WEBSITE_ROUTES.auth.login);
     } else {
       router.push(WEBSITE_ROUTES.auth.login);

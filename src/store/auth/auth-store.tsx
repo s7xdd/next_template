@@ -5,6 +5,7 @@ import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
 import { isUserVerified } from "@/utils/helper/auth-functions";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { cookies } from "next/headers";
 import {
   AuthState,
   ChangePasswordFormProps,
@@ -149,14 +150,17 @@ export const useAuthStore = create<AuthState>()(
         get().logout();
         return { data, error };
       },
-
-      logout: () =>
+      logout: async () => {
+        const response = await fetch("/api/clear-cookies", {
+          method: "GET",
+        });
         set({
           user: null,
           token: null,
           guestData: null,
           guestToken: null,
-        }),
+        });
+      },
     }),
     {
       name: "auth-storage",
