@@ -14,11 +14,9 @@ export const useLogin = (isCheckout?: boolean) => {
 
   const { getCart } = useCart();
 
-  const initialValues = {
-    email: "",
+  const initialValues: LoginFormProps = {
+    username: "",
     password: "",
-    remember: false,
-    deviceType: "",
   };
 
   const handleLoginFormSubmit = async (LoginData: LoginFormProps) => {

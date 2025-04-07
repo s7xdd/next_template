@@ -4,10 +4,10 @@ import React from "react";
 import DynamicForm from "../common/form/form-render/dynamic-form";
 import { DynamicFormSectionProps } from "@/types/components/component-types";
 import { useLogin } from "@/hooks/auth/use-login-handler";
-
+import { loginFormSchema } from "@/utils/validators/auth/auth-schema";
 
 const LoginForm = () => {
-  const { initialValues, handleLoginFormSubmit, isSubmitting, showOtpField, otpProps, isLoggedIn  } = useLogin();
+  const { initialValues, handleLoginFormSubmit, isSubmitting } = useLogin();
 
   const LoginFormFields: DynamicFormSectionProps[] = [
     {
@@ -35,9 +35,9 @@ const LoginForm = () => {
       <DynamicForm
         sections={LoginFormFields}
         validationSchema={loginFormSchema}
-        onSubmit={handleSubmit}
-        defaultValues={initialLoginValues}
-        isLoading={loginData.isSubmitting}
+        onSubmit={handleLoginFormSubmit}
+        defaultValues={initialValues}
+        isLoading={isSubmitting}
       />
     </>
   );

@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { initialState } from "./cart-initial";
 import { createFormData } from "./cart-functions";
-import { CartStateProps } from "@/types/store/cart-types";
+import { AddToCartProps, CartStateProps } from "@/types/store/cart-types";
 import { apiEndpoints } from "@/config/setup/api-setup/api-endpoints";
 import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
 
@@ -17,7 +17,7 @@ export const useCartStore = create<CartStateProps>((set) => ({
     return { data, error };
   },
 
-  addToCart: async (cartData: Record<string, any>) => {
+  addToCart: async (cartData: AddToCartProps) => {
     const formDataObject = createFormData(cartData);
 
     const url = `${apiEndpoints.cart.addtocart}`;
@@ -35,15 +35,14 @@ export const useCartStore = create<CartStateProps>((set) => ({
     return { data, error };
   },
 
-  updateCart: async (cartData: Record<string, any>) => {
-    const { formData, ...params } = cartData;
+  updateCart: async (cartData: AddToCartProps) => {
+    const formDataObject = createFormData(cartData);
 
-    const url = `${apiEndpoints.cart.updateCartItem}`;
-    const body = formData ? createFormData(formData) : null;
+    const url = `${apiEndpoints.cart.addtocart}`;
+    const body = formDataObject ? createFormData(formDataObject) : null;
 
     const { data, error } = await handleApiRequest(url, "post", {
       data: body || "",
-      params,
       toastSuccess: true,
       toastError: true,
     });
@@ -56,7 +55,7 @@ export const useCartStore = create<CartStateProps>((set) => ({
   },
 
   deleteCartItem: async (itemKey: string) => {
-    const url = `${apiEndpoints.cart.deleteCartItem(itemKey)}`;
+    const url = `${apiEndpoints.cart.removefromcart(itemKey)}`;
 
     await handleApiRequest(url, "post", {
       toastSuccess: true,
@@ -64,12 +63,12 @@ export const useCartStore = create<CartStateProps>((set) => ({
     });
   },
 
-  clearCart: async () => {
-    await handleApiRequest(apiEndpoints.cart.clearcart, "post", {
-      toastSuccess: true,
-      toastError: true,
-    });
+  // clearCart: async () => {
+  //   await handleApiRequest(apiEndpoints.cart.clearcart, "post", {
+  //     toastSuccess: true,
+  //     toastError: true,
+  //   });
 
-    set({ cart: initialState });
-  },
+  //   set({ cart: initialState });
+  // },
 }));

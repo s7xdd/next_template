@@ -1,7 +1,8 @@
 export interface CartStateProps {
   cart: CartProps | null;
-  addToCart: (cartData: any) => Promise<{ data: any; error: any }>;
-  getCart: () => Promise<{ data: any; error: any }>;
+  addToCart: (cartData: AddToCartProps) => Promise<{ data: CartProps; error: any }>;
+  getCart: () => Promise<{ data: CartProps; error: any }>;
+  updateCart: (cartData: AddToCartProps) => Promise<{ data: CartProps; error: any }>;
 }
 
 export interface CurrencyProps {
@@ -142,4 +143,9 @@ export interface CartItemProps {
   };
   catalog_visibility: string;
   extensions: { [key: string]: any };
+}
+
+export interface AddToCartProps {
+  id: any;
+  quantity: number;
 }

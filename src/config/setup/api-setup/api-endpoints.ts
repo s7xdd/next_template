@@ -1,7 +1,8 @@
 
 export const apiEndpoints = {
   auth: {
-    login: "/wp-json/jwt-auth/v1/token",
+    // login: "/wp-json/jwt-auth/v1/token",
+    login: "/wp-json/auth/v1/login",
     register: "/wp-json/auth/v1/register",
     guestregister: "/wp-json/auth/v1/guest",
     verifyotp: "/wp-json/auth/v1/verify",
@@ -49,6 +50,8 @@ export const apiEndpoints = {
   cart: {
     getcart: `/wp-json/wc/store/v1/cart`,
     addtocart: "/wp-json/wc/store/v1/cart/add-item",
+    removefromcart: (itemKey: string) => `/wp-json/wc/store/v1/cart/items/${itemKey}`,
+    clearcart: `/wp-json/wc/store/v1/cart`,
   },
 
   pages: {},
