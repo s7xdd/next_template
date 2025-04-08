@@ -1,7 +1,7 @@
 import { useCartStore } from "@/store/cart/cart-store";
 
 export const useCart = () => {
-  const { addToCart, getCart, updateCart } = useCartStore();
+  const { addToCart, getCart, updateCart, cart } = useCartStore();
 
   const addToCartHandler = () => {
     addToCart({
@@ -24,5 +24,5 @@ export const useCart = () => {
     });
   };
 
-  return { addToCartHandler, getCart, updateCartHandler, deleteCartItem };
+  return { addToCartHandler, getCart, updateCartHandler, deleteCartItem, cart };
 };

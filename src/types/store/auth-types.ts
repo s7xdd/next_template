@@ -1,44 +1,48 @@
-
 export interface AuthState {
   user: UserProps | null;
   guestData: UserProps | null;
   token: string | null;
   guestToken: string | null;
-  isVerified: boolean,
-  isGuestAuthenticated: boolean,
-  isAuthenticated: boolean,
+  isVerified: boolean;
+  isGuestAuthenticated: boolean;
+  isAuthenticated: boolean;
   login: (userData: LoginFormProps) => Promise<{ data: LoginResponseProps; isVerified: boolean; error: any }>;
   verifyOTP: (OTPData: OTPFormProps) => Promise<{ data: OTPResponseProps; isVerified: boolean; error: any }>;
-  forgotPassword: (forgotPasswordFormData: ResetPasswordFormProps) => Promise<{ data: ResetPasswordResponseProps; error: any }>;
+  forgotPassword: (
+    forgotPasswordFormData: ResetPasswordFormProps,
+  ) => Promise<{ data: ResetPasswordResponseProps; error: any }>;
   setPassword: (setPasswordFormData: SetPasswordFormProps) => Promise<{ data: SetPasswordResponseProps; error: any }>;
-  changePassword: (changePasswordFormData: ChangePasswordFormProps) => Promise<{ data: ChangePasswordResponseProps; error: any }>;
+  changePassword: (
+    changePasswordFormData: ChangePasswordFormProps,
+  ) => Promise<{ data: ChangePasswordResponseProps; error: any }>;
   logout: () => void;
 }
 
 export interface LoginResponseProps {
   success: boolean;
   message: string;
-  user: UserProps;
+  data: UserProps;
 }
 
 export interface UserProps {
   id: number;
-  name: string;
-  token: string;
-  username: string;
   email: string;
+  nicename: string;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  token: string;
   isguest: boolean;
   isverified: boolean;
   issocialmedia?: boolean;
 }
-
 
 export interface RegisterResponseProps {
   success: boolean;
   user: {
     username: string;
     email: string;
-  }
+  };
   message: string;
   isverified: boolean;
   code: string;
@@ -67,7 +71,6 @@ export interface GuestRegisterResponseProps {
   user: {
     id: number;
     name: string;
-    username: string;
     is_new_user: boolean;
     email: string;
     isguest: boolean;
@@ -87,15 +90,17 @@ export interface OTPResponseProps {
   success: boolean;
   message: string;
   user: {
-    id: number;
-    name: string;
-    username: string;
     token: string;
+    id: number;
     email: string;
+    nicename: string;
+    firstName: string;
+    lastName: string;
+    displayName: string;
     guesttoken: null;
     isguest: boolean;
     isverified: boolean;
-  }
+  };
 }
 
 export interface ResetPasswordFormProps {
@@ -106,7 +111,6 @@ export interface ResetPasswordResponseProps {
   success: boolean;
   message: string;
 }
-
 
 export interface SetPasswordFormProps {
   email: string;
@@ -119,7 +123,6 @@ export interface SetPasswordResponseProps {
   success: boolean;
   message: string;
 }
-
 
 export interface ChangePasswordFormProps {
   email: string;

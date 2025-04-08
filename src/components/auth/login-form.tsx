@@ -34,9 +34,9 @@ const LoginForm = () => {
     <>
       <DynamicForm
         sections={LoginFormFields}
+        defaultValues={initialValues}
         validationSchema={loginFormSchema}
         onSubmit={handleLoginFormSubmit}
-        defaultValues={initialValues}
         isLoading={isSubmitting}
       />
     </>

@@ -5,6 +5,7 @@ import "./globals.css";
 import Toastify from "@/components/common/toast/toast";
 import { useCart } from "@/hooks/cart/use-cart";
 import { useEffect } from "react";
+import { useAuthStore } from "@/store/auth/auth-store";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -16,10 +17,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  
+  const { user } = useAuthStore();
   const { getCart } = useCart();
   useEffect(() => {
     getCart();
-  }, []);
+  }, [user]);
+
+
   return (
     <html lang="en">
       <body className={` antialiased`}>

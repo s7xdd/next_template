@@ -12,7 +12,9 @@ export const useCartStore = create<CartStateProps>((set) => ({
 
   getCart: async () => {
     const { data, error } = await handleApiRequest(apiEndpoints.cart.getcart, "get");
-    set({ cart: data?.requestedData });
+    set({ cart: data });
+
+    console.log("caaaart", data);
 
     return { data, error };
   },
@@ -28,8 +30,8 @@ export const useCartStore = create<CartStateProps>((set) => ({
       toastError: true,
     });
 
-    if (data?.requestedData) {
-      set({ cart: data.requestedData });
+    if (data) {
+      set({ cart: data });
     }
 
     return { data, error };
@@ -47,8 +49,8 @@ export const useCartStore = create<CartStateProps>((set) => ({
       toastError: true,
     });
 
-    if (data?.requestedData) {
-      set({ cart: data.requestedData });
+    if (data) {
+      set({ cart: data });
     }
 
     return { data, error };

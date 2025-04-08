@@ -2,7 +2,8 @@
 export const apiEndpoints = {
   auth: {
     // login: "/wp-json/jwt-auth/v1/token",
-    login: "/wp-json/auth/v1/login",
+    // login: "/wp-json/auth/v1/login",
+    login: "/wp-json/jwt-auth/v1/token",
     register: "/wp-json/auth/v1/register",
     guestregister: "/wp-json/auth/v1/guest",
     verifyotp: "/wp-json/auth/v1/verify",

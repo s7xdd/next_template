@@ -19,19 +19,23 @@ export const useLogin = (isCheckout?: boolean) => {
     password: "",
   };
 
-  const handleLoginFormSubmit = async (LoginData: LoginFormProps) => {
-    console.log("LoginDataLoginData", LoginData);
+  const handleLoginFormSubmit = async (values: any) => {
+    const loginData: LoginFormProps = {
+      username: values.username,
+      password: values.password,
+    };
+    console.log("LoginDataLoginData", values);
     setIsSubmitting(true);
-    const { data, error, isVerified } = await useAuthStore.getState().login(LoginData);
+    const { data, error, isVerified } = await useAuthStore.getState().login(loginData);
 
-    console.log("data", data);
+    console.log("data", isVerified);
 
     if (error) {
       setIsSubmitting(false);
       throw error;
     }
 
-    if (data && data.user) {
+    if (data && data.data) {
       if (isVerified) {
         setIsLoggedIn(true);
         getCart();
@@ -39,7 +43,7 @@ export const useLogin = (isCheckout?: boolean) => {
           router.push(WEBSITE_ROUTES.pages.home);
         }
       } else {
-        setOtpProps(data?.user);
+        setOtpProps(data?.data);
         setShowOtpField(true);
       }
     }

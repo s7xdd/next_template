@@ -5,7 +5,6 @@ import { handleApiRequest } from "@/config/setup/wrapper/api-wrapper";
 import { isUserVerified } from "@/utils/helper/auth-functions";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { cookies } from "next/headers";
 import {
   AuthState,
   ChangePasswordFormProps,
@@ -44,21 +43,21 @@ export const useAuthStore = create<AuthState>()(
           },
         );
 
-        const isVerified = isUserVerified(data?.user);
-        if (data && data?.user && isVerified) {
-          const { token } = data.user;
+        const isVerified = isUserVerified(data?.data);
+        if (data && data?.data && isVerified) {
+          const { token } = data.data;
           set({
-            user: data.user,
+            user: data.data,
             token,
             isAuthenticated: isVerified,
             isVerified: isVerified,
           });
         }
 
-        if (data && data?.user?.token) {
-          const { token } = data?.user;
+        if (data && data?.data?.token) {
+          const { token } = data?.data;
           set({
-            user: data?.user,
+            user: data?.data,
             token,
           });
         }
@@ -151,13 +150,13 @@ export const useAuthStore = create<AuthState>()(
         return { data, error };
       },
       logout: async () => {
-        const response = await fetch("/api/clear-cookies", {
-          method: "GET",
-        });
         set({
           user: null,
           token: null,
+          isVerified: false,
+          isAuthenticated: false,
           guestData: null,
+          isGuestAuthenticated: false,
           guestToken: null,
         });
       },
