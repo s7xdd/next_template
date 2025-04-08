@@ -12,17 +12,19 @@ export const createServerConnectAPI = (authRequired = false) => {
     Accept: "application/json",
     Authorization: token ? `Bearer ${token}` : undefined,
   };
+  
   const requestOptions: any = {
     baseURL: baseUrl,
     headers: headers,
   };
+
   if (authRequired) {
     requestOptions.auth = {
       username: consumer_key,
       password: consumer_secret,
     };
   }
-  
+
   if(!token){
     requestOptions.withCredentials = true
   }
