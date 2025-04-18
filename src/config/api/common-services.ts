@@ -3,46 +3,40 @@ import { apiClient } from "../setup/api";
 import { apiEndpoints } from "../setup/api-endpoints";
 
 export const handleCommonApi = async <T>(
-    apiType: string,
-    method: "get" | "post" | "delete",
-    id?: string,
-    data?: any,
-    params?: ParamsProps,
-    isStatusChange?: boolean
+  apiType: string,
+  method: "get" | "post" | "delete",
+  id?: string,
+  data?: any,
+  params?: ParamsProps,
+  isStatusChange?: boolean,
 ): Promise<T> => {
-    try {
-        const endpoint = isStatusChange
-            ? apiEndpoints.status[apiType](id!)
-            : apiType;
+  try {
+    const endpoint = isStatusChange ? apiEndpoints.status[apiType](id!) : apiType;
 
+    let payload: any = {};
+    let config: any = {};
 
-        let payload: any = {};
-        let config: any = {};
-
-        if (method === "get") {
-            payload = { params };
-        } else if (isStatusChange) {
-            payload = { status: data?.toString() };
-        } else if (data instanceof FormData) {
-            payload = data;
-            config.headers = { "Content-Type": "multipart/form-data" };
-        } else {
-            payload = data;
-        }
-
-        const response = await apiClient[method](endpoint, payload, config);
-
-        if (response?.data?.error) {
-            throw response.data;
-        }
-        return response.data;
-    } catch (error) {
-        throw error;
+    if (method === "get") {
+      payload = { params };
+    } else if (isStatusChange) {
+      payload = { status: data?.toString() };
+    } else if (data instanceof FormData) {
+      payload = data;
+      config.headers = { "Content-Type": "multipart/form-data" };
+    } else {
+      payload = data;
     }
+
+    const response = await apiClient[method](endpoint, payload, config);
+
+    if (response?.data?.error) {
+      throw response.data;
+    }
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
-
-
-
 
 //Change status common api
 // export const changeStatusApi = async (
@@ -68,7 +62,6 @@ export const handleCommonApi = async <T>(
 //         }
 //     }
 // };
-
 
 // //For most common Api's
 // export const handleCommonApi = async <T>(
