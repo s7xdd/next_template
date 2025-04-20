@@ -48,8 +48,12 @@ export const useCommonHook = <T, F = any>({
         triggerRequest: triggerAllItemsList,
         status,
     } = useApi(
-        (params?: any) => handleCommonApi(endpoint, "get", undefined, undefined, params),
-        defaultFilters
+        endpoint, "get", {
+        defaultParams: {
+            ...params,
+            ...defaultFilters
+        }
+    }
     );
 
     const fetchItemWithId = async (id: string) => {

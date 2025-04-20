@@ -1,4 +1,5 @@
 export interface ParamsProps {
+  id?: string;
   category?: string;
   categories?: string;
   brands?: string;

@@ -3,16 +3,20 @@ import { handleApiRequest } from "@/config/setup/api-wrapper";
 import { ParamsProps } from "@/types/common";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, useCallback, useRef } from "react";
-import { toast } from "react-toastify";
 
 const useApi = (
-  apiFunction: (params?: ParamsProps, slug?: string) => Promise<any>,
-  defaultParams: ParamsProps | null = null,
-  slug?: string,
-  autoFetch: boolean = false,
-  toastSuccess: boolean = false,
-  toastError: boolean = true,
+  endpoint: string,
+  method: "get" | "post" | "delete",
+  options: {
+    defaultParams?: ParamsProps;
+    autoFetch?: boolean;
+    isStatusChange?: boolean;
+    toastSuccess?: boolean;
+    toastError?: boolean;
+  } = {},
 ) => {
+  const { defaultParams = {}, autoFetch = false, toastSuccess = false, toastError = true } = options;
+
   const searchParams = useSearchParams();
   const searchParamsString = searchParams.toString();
 
@@ -30,24 +34,34 @@ const useApi = (
   const isInitialMount = useRef(true);
 
   const fetchData = useCallback(
-    async (overrideParams?: any) => {
+    async (overrideParams?: ParamsProps) => {
       setStatus("loading");
       setError(null);
 
-      const finalParams = overrideParams ?? params;
+      try {
+        const finalParams = overrideParams ?? params;
 
-      const { data, error } = await handleApiRequest(() => apiFunction(finalParams, slug), toastSuccess, toastError);
+        const { data: responseData, error: responseError } = await handleApiRequest(endpoint, method, {
+          data: finalParams,
+          params: finalParams,
+          toastSuccess,
+          toastError,
+        });
 
-      if (error || data?.error) {
-        const errorMessage = data?.message || "An unexpected error occurred.";
-        setError(errorMessage);
-        setStatus("error");
-      } else {
-        setData(data);
+        if (responseError || responseData?.error) {
+          throw responseError || responseData?.error;
+        }
+
+        setData(responseData);
         setStatus("success");
+        return responseData;
+      } catch (error) {
+        setError(error instanceof Error ? error.message : String(error));
+        setStatus("error");
+        return null;
       }
     },
-    [apiFunction, params, slug, searchParams],
+    [endpoint, method, params, toastSuccess, toastError],
   );
 
   useEffect(() => {
@@ -74,12 +88,22 @@ const useApi = (
   }, [searchParamsString]);
 
   const triggerRequest = (newParams?: ParamsProps) => {
-    console.log("newParamsnewParams", newParams);
-    setParams(newParams ?? params);
+    if (newParams) {
+      setParams((prev) => ({ ...prev, ...newParams }));
+    }
     setShouldFetch(true);
   };
 
-  return { data, error, status, triggerRequest, params };
+  return {
+    data,
+    error,
+    status,
+    triggerRequest,
+    params,
+    isLoading: status === "loading",
+    isError: status === "error",
+    isSuccess: status === "success",
+  };
 };
 
 export default useApi;
