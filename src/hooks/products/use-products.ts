@@ -1,6 +1,6 @@
 import { apiEndpoints } from "@/config/setup/api-endpoints";
 import { ProductFormFieldProps, ProductProps } from "@/types/product/product-types";
-import { useGenericHook } from "../common/use-common";
+import { useCommonHook } from "../common/use-common";
 import { getImageOrVideoUrl } from "@/utils/helper/common";
 import { WEBSITE_ROUTES } from "@/config/website/routes";
 
@@ -25,7 +25,7 @@ export const useProducts = () => {
         filterValues,
         itemData,
         tableFilters
-    } = useGenericHook<ProductFormFieldProps>({
+    } = useCommonHook<ProductFormFieldProps>({
         endpoint: apiEndpoints.product.products(),
         redirectLink: WEBSITE_ROUTES.pages.product(),
 

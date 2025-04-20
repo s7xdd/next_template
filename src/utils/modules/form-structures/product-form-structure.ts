@@ -1,7 +1,4 @@
 import { DISPLAY_STATUS_ARRAY } from "@/constants/common/common-constants";
-import { BrandProps } from "@/types/brand/brand-types";
-import { CategoryProps } from "@/types/category/category-types";
-import { CountryListProps } from "@/types/common";
 import { DynamicFormSectionProps } from "@/types/components/table-types";
 import { useRouter } from "next/navigation";
 
@@ -94,11 +91,7 @@ export const ProductFormDefaultValues = {
   }
 };
 
-export const ProductFormFields = (props: any) => {
-  const { brands, countries, categories } = props;
-  const router = useRouter();
-
-  console.log("brandsbrands", brands)
+export const ProductFormFields = () => {
 
   return [
     {
@@ -115,17 +108,23 @@ export const ProductFormFields = (props: any) => {
           name: "brand",
           label: "Brand",
           type: "select",
-          options: brands?.requestedData?.map((brand: BrandProps) => (
-            { value: brand._id, label: brand.brandTitle }
-          )) ?? []
+          options: [
+            { value: "", label: "Select brand" },
+            { value: "Dummy1", label: "Dummy1" },
+            { value: "Dummy2", label: "Dummy2" },
+            { value: "Dummy3", label: "Dummy3" },
+          ]
         },
         {
           name: "category",
           label: "Category",
           type: "select",
-          options: categories?.requestedData?.map((category: CategoryProps) => (
-            { value: category._id, label: category.categoryTitle }
-          )) ?? []
+          options: [
+            { value: "", label: "Select brand" },
+            { value: "Dummy1", label: "Dummy1" },
+            { value: "Dummy2", label: "Dummy2" },
+            { value: "Dummy3", label: "Dummy3" },
+          ]
         },
         {
           name: "unit",

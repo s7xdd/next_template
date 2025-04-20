@@ -53,11 +53,8 @@ export const useCommonHook = <T, F = any>({
     );
 
     const fetchItemWithId = async (id: string) => {
-        const { data, error }: { data: any, error: any } = await handleApiRequest(
-            () => handleCommonApi(endpoint + `/${id}`, "get"),
-            false,
-            true
-        );
+        const { data, error }: { data: any, error: any } = await handleApiRequest(endpoint + `/${id}`, "get", undefined)
+
         if (data) {
             setItemData(mapToFormValues(data?.requestedData));
         }

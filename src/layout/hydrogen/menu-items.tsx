@@ -16,13 +16,13 @@ export const NAVIGATION: Navigation = [
     icon: <DashboardIcon fontSize="small" />,
   },
   {
-    segment: "ecommerce",
+    segment: "admin/ecommerce",
     title: "E-Commerce",
     icon: <ShoppingBasketIcon fontSize="small" />,
     children: [
       {
-        segment: "collections-brands",
-        title: "Collections - Brands",
+        segment: "products",
+        title: "Products",
         icon: <DescriptionIcon fontSize="small" />,
       },
     ],

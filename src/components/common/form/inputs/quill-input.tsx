@@ -1,6 +1,6 @@
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import ReactQuillEditor from "../../text-editor/react-quil";
+import ReactQuillEditor from "../components/text-editor/react-quil";
 
 interface QuillEditorInputProps {
   name?: string;
