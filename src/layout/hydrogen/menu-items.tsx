@@ -11,7 +11,7 @@ export const NAVIGATION: Navigation = [
     title: "Main Menu",
   },
   {
-    segment: "",
+    segment: "admin",
     title: "Dashboard",
     icon: <DashboardIcon fontSize="small" />,
   },
